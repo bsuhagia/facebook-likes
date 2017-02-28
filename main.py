@@ -4,14 +4,16 @@ import os
 from tqdm import tqdm
 import numpy as np
 import scipy
-from scipy import ndimage
+from scipy import 
+import get_likes
 
 ''' 
 - todo -
 1) get friends id (x)
 2) get friends pic (x)
-3) preprocess pictures ( )
+3) preprocess pictures (x)
 4) get friends likes ( )
+5) get friends' friends
 5) preprocess entire data ( )
 6) train CNN model ( )
 7) make simple web app ( )
@@ -59,3 +61,11 @@ ids = get_friend_ids(graph)
 get_images(ids)
 dataset = process_images()
 
+driver = get_likes.setup()
+get_likes.login(driver)
+
+id_likes = {}
+for id in tqdm(ids):
+    id_likes[id] = get_likes.likes(id)
+
+get_likes.quit(driver)
