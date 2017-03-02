@@ -4,8 +4,10 @@ import os
 from tqdm import tqdm
 import numpy as np
 import scipy
-from scipy import 
+from scipy import ndimage
 import get_likes
+import pandas as pd
+
 
 ''' 
 - todo -
@@ -58,14 +60,8 @@ def process_images(filename='images'):
 # main
 graph = facebook.GraphAPI(access_token=access_token)
 ids = get_friend_ids(graph)
-get_images(ids)
-dataset = process_images()
+# get_images(ids)
+# dataset = process_images()
 
-driver = get_likes.setup()
-get_likes.login(driver)
-
-id_likes = {}
-for id in tqdm(ids):
-    id_likes[id] = get_likes.likes(id)
-
-get_likes.quit(driver)
+df = pd.DataFrame(ids, columns=['ids'])
+df.to_csv('data.csv', index=False)
